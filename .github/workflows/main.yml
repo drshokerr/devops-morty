@@ -32,7 +32,7 @@ jobs:
       # Deploy using Helm
       - name: Deploy Helm chart
         run: |
-          helm install morty-api ./helm/morty-api --wait
+          helm install morty-api ./Helm/morty-api --wait
 
       # Wait for pod to be ready
       - name: Wait for app to be ready
