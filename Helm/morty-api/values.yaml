@@ -1,0 +1,23 @@
+replicaCount: 2
+
+image:
+  repository: morty-api
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+  hosts:
+    - host: morty.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+resources: {}

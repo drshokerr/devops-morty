@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: morty-api-service
+  labels:
+    app: morty-api
+spec:
+  selector:
+    app: morty-api
+  ports:
+    - protocol: TCP
+      port: 80    # Service port
+      targetPort: 80  # Flask app container port
+  type: NodePort  # Options: ClusterIP (internal), NodePort, LoadBalancer

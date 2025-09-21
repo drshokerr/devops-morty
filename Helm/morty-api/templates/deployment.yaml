@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "morty-api.fullname" . }}
+  labels:
+    app: {{ include "morty-api.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "morty-api.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "morty-api.name" . }}
+    spec:
+      containers:
+        - name: {{ include "morty-api.name" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 80
+

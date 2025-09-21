@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: morty-api-deployment
+  labels:
+    app: morty-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: morty-api
+  template:
+    metadata:
+      labels:
+        app: morty-api
+    spec:
+      containers:
+      - name: morty-api
+        image: morty-api:latest 
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80

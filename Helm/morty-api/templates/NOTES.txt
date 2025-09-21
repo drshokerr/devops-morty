@@ -1,0 +1,1 @@
+this is small flask app to help with the morty api
