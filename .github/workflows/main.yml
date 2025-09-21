@@ -1,0 +1,48 @@
+name: CI - Build and Test Morty API
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  k8s-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Install KinD + kubectl
+      - name: Set up KinD cluster
+        uses: helm/kind-action@v1.8.0
+        with:
+          cluster_name: morty-cluster
+
+      # Build Docker image
+      - name: Build Docker image
+        run: docker build -t morty-api:latest .
+
+      # Load Docker image into KinD cluster
+      - name: Load image into KinD
+        run: kind load docker-image morty-api:latest --name morty-cluster
+
+      # Deploy using Helm
+      - name: Deploy Helm chart
+        run: |
+          helm install morty-api ./helm/morty-api --wait
+
+      # Wait for pod to be ready
+      - name: Wait for app to be ready
+        run: |
+          kubectl rollout status deployment/morty-api -n default --timeout=60s
+
+      # Port-forward and test endpoint
+      - name: Port-forward and test app
+        run: |
+          kubectl port-forward service/morty-api 8080:80 &
+          sleep 5
+          curl -f http://localhost:8080/healthcheck
+
