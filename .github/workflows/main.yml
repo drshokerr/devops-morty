@@ -37,7 +37,7 @@ jobs:
       # Wait for pod to be ready
       - name: Wait for app to be ready
         run: |
-          kubectl rollout status deployment/morty-api -n default --timeout=60s
+          kubectl rollout status deployment/morty-api-morty-api -n default --timeout=60s
 
       # Port-forward and test endpoint
       - name: Port-forward and test app
