@@ -44,5 +44,5 @@ jobs:
         run: |
           kubectl port-forward service/morty-api-morty-api 8080:80 &
           sleep 5
-          curl -f http://localhost:8080/healthcheck
+          curl -i -f http://localhost:8080/healthcheck
 
